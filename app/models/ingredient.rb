@@ -1,13 +1,13 @@
 class Ingredient
     attr_accessor :name, :calories
-    attr_writer :dessert
+    
     @@all = []
     
     def initialize(name, dessert, calories)
         @name = name
         @dessert = dessert
         @calories = calories
-        Ingredient.all << self
+        @@all << self
     end
 
     def self.all
@@ -15,16 +15,14 @@ class Ingredient
     end
     
     def self.find_all_by_name(ingredient)
-        Dessert.all.select do |dessert|
-            dessert.name.include? ingredient
-        end.map do |dessert|
-            dessert.name
+        Ingredient.all.select do |ingredient_instance|
+            ingredient_instance.name.include? ingredient.to_s
         end
     end
 
     def dessert
         Dessert.all.select do |dessert|
-            dessert.ingredients.include? self
+            dessert.ingredient == self
         end
     end
 
